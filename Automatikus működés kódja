@@ -1,0 +1,79 @@
+Automatikus működés C++ kódja.
+
+#include <Servo.h>
+
+//Motorok definiálása
+Servo jobb;
+Servo also;
+Servo felso;
+Servo bal;
+
+//Motor pozíciók
+int motorPoz=0;
+void setup(){
+  //Motor bementijelek definiálása PIN(3-5-6-9)
+  jobb.attach(6);
+  also.attach(4);
+  felso.attach(5);
+  bal.attach(3);
+//Alaphelyzet
+  also.write(0);
+  bal.write(150);
+  jobb.write(160);
+  felso.write(70);
+  
+}
+//Alaphelyzet
+void loop(){
+//1. Irányba fordul.
+    delay(2500);
+    also.write(90);
+    bal.write(150);
+    jobb.write(160);
+    felso.write(30);
+//2. Lenyúl a blokkért.
+    delay(2500);
+    also.write(90);
+    bal.write(150);
+    jobb.write(70);
+    felso.write(30);
+//3.Megfogja a blokkot.
+    delay(1000);
+    felso.write(100);
+    delay(1000);
+//4. Felemeli a blokkot.
+    also.write(90);
+    bal.write(150);
+    jobb.write(70);
+    felso.write(100);
+    delay(2500);
+//5. Elfordul
+    also.write(90);
+    bal.write(150);
+    jobb.write(160);
+    felso.write(100);
+    delay(2500);
+//6. Tartja a blokkot.
+    also.write(180);
+    bal.write(150);
+    jobb.write(160);
+    felso.write(100);
+    delay(2500);
+//7. Helyére emeli a blokkot.
+    also.write(180);
+    bal.write(150);
+    jobb.write(100);
+    felso.write(100);
+    delay(2500);
+//8. Ledobja a blokkot.
+    also.write(180);
+    bal.write(150);
+    jobb.write(100);
+    felso.write(20);
+    delay(1000);
+//9.Alaphelyzet.
+    also.write(0);
+    bal.write(150);
+    jobb.write(160);
+    felso.write(30);
+}
