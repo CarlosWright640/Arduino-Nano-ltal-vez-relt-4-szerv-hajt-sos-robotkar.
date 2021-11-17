@@ -1,0 +1,67 @@
+Telefonos vezérlés C++ kódja
+
+#include <SoftwareSerial.h>
+#include <Servo.h>
+
+Servo felso, also, jobb, bal; // Motor nevek
+
+int bluetoothTx = 10; // Bluetooth TXD a 10es kimenetre.
+int bluetoothRx = 11; // Bluetooth RXD a 11es kimenetre.
+
+SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
+
+void setup(){
+//Motor bementijelek definiálása PIN(3-5-6-9)
+  felso.attach(3); 
+  also.attach(5);
+  jobb.attach(6);
+  bal.attach(9);
+//USB soros kapcsolata a számítógéppel.
+  Serial.begin(9600);
+//Bluetooth soros kapcsolata androidon.
+  bluetooth.begin(9600);
+}
+
+void loop(){
+
+//Átvitel a Bluetooth és az USB között.
+  if(bluetooth.available()>=2 ){
+    unsigned int servopos = bluetooth.read();
+    unsigned int servopos1 = bluetooth.read();
+    unsigned int realservo = (servopos1 *256) + servopos;
+    Serial.println(realservo);
+	//Felső motor mozgatása.
+    if (realservo >= 1000 &&realservo <1180) {
+      int servo1 = realservo;
+      servo1 = map(servo1, 1000, 1180, 0, 180);
+      felso.write(servo1);
+      Serial.println("Servo 1 ON");
+      delay(10);
+    }
+	//Alsó motor mozgatása.
+    if (realservo >= 2000 &&realservo <2180) {
+      int servo2 = realservo;
+      servo2 = map(servo2, 2000, 2180, 0, 180);
+      also.write(servo2);
+      Serial.println("Servo 2 ON");
+      delay(10);
+    }
+	//Jobb oldali motor mozgatása.
+    if (realservo >= 3000 &&realservo <3180) {
+      int servo3 = realservo;
+      servo3 = map(servo3, 3000, 3180, 0, 180);
+      jobb.write(servo3);
+      Serial.println("Servo 3 ON");
+      delay(10);
+    }
+	//Bal oldali motor mozgatása.
+    if (realservo >= 4000&&realservo <4180) {
+      int servo4 = realservo;
+      servo4 = realservo;
+      servo4 = map(servo4, 4000, 4180, 0, 180);
+      bal.write(servo4);
+      Serial.println("Servo 4 ON");
+      delay(10);
+    }
+  }
+}
